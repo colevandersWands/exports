@@ -1,1 +1,3 @@
-import {arr} from "./module.js";
+import { user } from './export.js';
+
+document.body.innerHTML = user; // John
