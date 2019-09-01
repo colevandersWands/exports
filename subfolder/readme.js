@@ -64,42 +64,43 @@ function exercise3() {
   console.assert(b === "b", "b is not 'b'");
 }
 
+window.onload = function () {
+  try {
+    document.body.appendChild(liveStudy(valueSwaps));
+  } catch (err) {
+    console.error(err);
 
-try {
-  document.body.appendChild(liveStudy(valueSwaps));
-} catch (err) {
-  console.error(err);
-
-  console.assert = function assertWapper(assertion) {
-    if (!assertion) {
-      Array.prototype.shift.call(arguments);
-      console.error(...arguments);
+    console.assert = function assertWapper(assertion) {
+      if (!assertion) {
+        Array.prototype.shift.call(arguments);
+        console.error(...arguments);
+      }
     }
-  }
 
-  function liveStudyFallback(obj) {
-    if (!(obj instanceof Object)) return null;
+    function liveStudyFallback(obj) {
+      if (!(obj instanceof Object)) return null;
 
-    for (let key in obj) {
-      if (key === "liveStudy") {
-        if (obj[key] instanceof Function) {
-          try {
-            obj[key]()
-          } catch (err) {
-            console.error(err);
-          }
-        } else if (obj[key] instanceof Array) {
-          try {
-            obj[key].forEach(step => step());
-          } catch (err) {
-            console.error(err);
+      for (let key in obj) {
+        if (key === "liveStudy") {
+          if (obj[key] instanceof Function) {
+            try {
+              obj[key]()
+            } catch (err) {
+              console.error(err);
+            }
+          } else if (obj[key] instanceof Array) {
+            try {
+              obj[key].forEach(step => step());
+            } catch (err) {
+              console.error(err);
+            }
           }
         }
-      }
-      else if (key === "nested") {
-        obj[key].forEach(item => liveStudyFallback(item))
+        else if (key === "nested") {
+          obj[key].forEach(item => liveStudyFallback(item))
+        }
       }
     }
+    liveStudyFallback(valueSwaps);
   }
-  liveStudyFallback(valueSwaps);
 }
