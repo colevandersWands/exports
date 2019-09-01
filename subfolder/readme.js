@@ -8,7 +8,7 @@ const valueSwaps = {
       "moxi": "https://www.badgerbadgerbadger.com"
     },
   },
-  recurse: [
+  nested: [
     {
       title: { h: 3, value: "double swap" },
       studyButtons: ["pytut", "parsonizer"],
